@@ -20,8 +20,10 @@ Route::get('/', function () {
 
 Route::view('entry', 'transactionEntry');
 
-Route::post('transactions', [TransactionController::class, 'add']);
-
 Route::get('transactions', [TransactionController::class, 'loadAll']);
+
+Route::post('transactions', [TransactionController::class, 'addEdit']);
+
+Route::get('{id}', [TransactionController::class, 'onEdit']);
 
 Route::get('delete/{id}', [TransactionController::class, 'delete']);

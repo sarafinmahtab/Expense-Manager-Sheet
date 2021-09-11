@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Transactions</title>
     <style>
-        a.delete_transaction {
-            position: absolute;
-            right: 0px; top: 0px; width:20px;
-            background-color: #FFF; color: black;
-            margin-top:-15px; margin-right:-15px; border-radius: 20px;
-            padding-left: 3px; padding-top: 1px;
-            cursor:pointer; z-index: -1;
-            font-size:16px; font-weight:bold;
+        #update {
+            color: rgb(76, 74, 78);
+            text-decoration: none;
+        }
+        #delete {
+            color: rgb(168, 29, 29);
+            text-decoration: none;
+        }
+        .transaction-list tbody tr td:nth-child(6) {
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+        }
+        tr {
+            border-bottom: 1px solid #ccc;
         }
     </style>
 </head>
@@ -39,7 +49,7 @@
     <a href="/entry">Add Transaction</a>
     <br><br>
 
-    <table>
+    <table class="transaction-list">
         <tr>
             <td>ID</td>
             <td>Amount</td>
@@ -55,7 +65,10 @@
             <td>{{ $transaction->transaction_date }}</td>
             <td>{{ $transaction->projection }}</td>
             <td>{{ $transaction->remarks }}</td>
-            <td><a class="delete" id="delete" href="delete/{{ $transaction->id }}">&#x274C;</a></td>
+            <td>
+                <a class="fa fa-edit fa-lg"  id="update" href="{{ $transaction->id }}"></a>
+                <a class="fa fa-trash fa-lg"  id="delete" href="delete/{{ $transaction->id }}"></a>
+            </td>
         </tr>
         @endforeach
     </table>

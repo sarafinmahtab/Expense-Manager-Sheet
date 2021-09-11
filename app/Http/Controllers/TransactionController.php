@@ -21,7 +21,7 @@ class TransactionController extends Controller
         ]);
     }
 
-    function add(Request $request) {
+    function addEdit(Request $request) {
         $request->validate(
             [
                 'amount'=>'required',
@@ -29,19 +29,42 @@ class TransactionController extends Controller
             ]
         );
 
-        $transaction = new Transaction();
-        $transaction->amount = $request->amount;
-        $transaction->transaction_date = $request->transaction_date;
-        $transaction->remarks = $request->remarks;
-
-        if ($request->exists('projection')) {
-            $transaction->projection=1;
+        if ($request->id == -1) {
+            // Adding Transaction
+            $transaction = new Transaction();
+            $transaction->amount = $request->amount;
+            $transaction->transaction_date = $request->transaction_date;
+            $transaction->remarks = $request->remarks;
+    
+            if ($request->exists('projection')) {
+                $transaction->projection = 1;
+            } else {
+                $transaction->projection = 0;
+            }
+    
+            $result = $transaction->save();
+            return redirect('entry')->with('add_result', $result);
         } else {
-            $transaction->projection=0;
+            // Updating Transaction
+            $transaction = Transaction::find($request->id);
+            $transaction->amount = $request->amount;
+            $transaction->transaction_date = $request->transaction_date;
+            $transaction->remarks = $request->remarks;
+    
+            if ($request->exists('projection')) {
+                $transaction->projection = 1;
+            } else {
+                $transaction->projection = 0;
+            }
+    
+            $result = $transaction->save();
+            return redirect('transactions')->with('update_result', $result);
         }
+    }
 
-        $result = $transaction->save();
-        return redirect('entry')->with('add_result', $result);
+    function onEdit($id) {
+        $data = Transaction::find($id);
+        return view('transactionEntry', ['transactionData'=>$data]);
     }
 
     function delete($id) {
