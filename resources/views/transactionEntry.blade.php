@@ -45,7 +45,7 @@
         const transactionData = JSON.parse('{!! json_encode($transactionData ?? '') !!}');
 
         if (transactionData) {
-            console.log(transactionData.amount);
+            console.log(transactionData);
 
             document.getElementById("title").textContent = "Update transaction ".concat(transactionData.id);
             

@@ -13,10 +13,18 @@ class TransactionController extends Controller
         $start = microtime(true);
         $result = DB::select('select * from transactions');
         // Alternative: $result = Transaction::all();
+
+        $sum = DB::table('transactions')
+            ->where('projection', 0)
+            ->sum('amount');
+        $count = DB::table('transactions')->count();
+
         $end = (microtime(true) - $start);
 
         return view('transactions', [
             'transactionData'=>$result,
+            'sum'=>$sum,
+            'count'=>$count,
             'elapsedTime'=>$end
         ]);
     }
